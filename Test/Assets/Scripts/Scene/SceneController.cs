@@ -1,17 +1,16 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Test.Scene {
-    public class SceneController : MonoBehaviour {
-        private Scene currentScene;
+namespace Test.MyScene {
+    public enum SceneType {
+        Title,
+        InGame,
+        End
+    }
 
-        void Start() {
-
-        }
-
-        void Update() {
-
-        }
+    public abstract class SceneController : MonoBehaviour {
+        public SceneType sceneType { get; protected set; } = SceneType.End;
+        public bool CanChangeNextStep { get; protected set;} = false;
     }
 }
