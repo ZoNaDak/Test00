@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Test.Collider2D {
+namespace Test.Util.Collider {
     [AddComponentMenu("Physics 2D/Bezier Curve Collider 2D")]
 
     [RequireComponent(typeof(EdgeCollider2D))]

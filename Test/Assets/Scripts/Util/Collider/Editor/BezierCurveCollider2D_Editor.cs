@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEditor;
 
-namespace Test.Collider2D {
+namespace Test.Util.Collider {
     [CustomEditor (typeof(BezierCurveCollider2D))]
     public class BezierCurveCollider_Editor : Editor {
         BezierCurveCollider2D bezierCurveCollider;
