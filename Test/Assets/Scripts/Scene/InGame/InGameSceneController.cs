@@ -5,11 +5,11 @@ using UnityEngine;
 namespace Test.MyScene {
     public class InGameSceneController : SceneController {
         void Awake() {
-            this.sceneType = SceneType.InGame;
+            this.SceneType = ESceneType.InGame;
         }
 
         public void ClickOnStartButton() {
-    		CanChangeNextStep = true;
+    		IsChangedNextStep = true;
     	}
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using Test.MyScene;
 
 namespace Test {
-    public enum Step {
+    public enum EStep {
         Title,
         Lobby,
         InGame,
@@ -14,10 +14,10 @@ namespace Test {
     }
 
     public class GameController : Pattern.MonoSingleton<GameController> {
-        private Dictionary<SceneType, SceneController> currentSceneDictionary = new Dictionary<SceneType, SceneController>();
+        private Dictionary<ESceneType, SceneController> currentSceneDictionary = new Dictionary<ESceneType, SceneController>();
         private bool isSceneLoaded;
 
-        public Step CurrentStep { get; private set; }
+        public EStep CurrentStep { get; private set; }
 
         void Awake() {
             #if !UNITY_EDITOR
@@ -29,7 +29,7 @@ namespace Test {
         }
 
         void Start() {
-            StartCoroutine(LoadAsyncScenesForStep(Step.Title));
+            StartCoroutine(LoadAsyncScenesForStep(EStep.Title));
         }
 
         void Update() {
@@ -45,20 +45,20 @@ namespace Test {
 
             try {
                 if(CheckGoToNextStep()) {
-                    GoToNextStep();
+                    GoToNextStepInternal();
                 }  
             } catch(System.NullReferenceException) {
                 Debug.LogError("currentScene is Null!!");
             }      
         }
 
-        private void GoToNextStep() {
+        private void GoToNextStepInternal() {
             switch(this.CurrentStep) {
-                case Step.Title:
+                case EStep.Title:
                     SceneManager.UnloadSceneAsync("Title");
-                    StartCoroutine(LoadAsyncScenesForStep(Step.InGame));
+                    StartCoroutine(LoadAsyncScenesForStep(EStep.InGame));
                 break;
-                case Step.InGame:
+                case EStep.InGame:
                     SceneManager.UnloadSceneAsync("InGame");
                 break;
                 default:
@@ -66,16 +66,16 @@ namespace Test {
             }
         }
 
-        private IEnumerator LoadAsyncScenesForStep(Step _step) {
+        private IEnumerator LoadAsyncScenesForStep(EStep _step) {
             this.isSceneLoaded = false;
             this.CurrentStep = _step;
 
             List<AsyncOperation> asyncLoadList = new List<AsyncOperation>();
             switch(_step) {
-                case Step.Title:
+                case EStep.Title:
                     asyncLoadList.Add(SceneManager.LoadSceneAsync("Title", LoadSceneMode.Additive));
                 break;
-                case Step.InGame:
+                case EStep.InGame:
                     asyncLoadList.Add(SceneManager.LoadSceneAsync("InGame", LoadSceneMode.Additive));
                 break;
                 default:
@@ -110,7 +110,7 @@ namespace Test {
                 foreach(var obj in objects) {
                     SceneController sceneController = obj.GetComponent<SceneController>();
                     if(sceneController != null) {
-                        this.currentSceneDictionary.Add(sceneController.sceneType, sceneController);
+                        this.currentSceneDictionary.Add(sceneController.SceneType, sceneController);
                     }
                 }
             }
@@ -118,13 +118,13 @@ namespace Test {
 
         private bool CheckGoToNextStep() {
             switch(this.CurrentStep) {
-                case Step.Title:
-                    if(this.currentSceneDictionary[SceneType.Title].CanChangeNextStep) {
+                case EStep.Title:
+                    if(this.currentSceneDictionary[ESceneType.Title].IsChangedNextStep) {
                         return true;
                     }
                 break;
-                case Step.InGame:
-                    if(this.currentSceneDictionary[SceneType.InGame].CanChangeNextStep) {
+                case EStep.InGame:
+                    if(this.currentSceneDictionary[ESceneType.InGame].IsChangedNextStep) {
                         return true;
                     }
                 break;
