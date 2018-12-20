@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Candy
+  - Board
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: bg_Board
+    uniqueID: 430664579
+    locked: 0
+  - name: Candy
+    uniqueID: 3684196109
+    locked: 0
+  - name: top_Board
+    uniqueID: 2717204317
+    locked: 0
+  - name: UI
+    uniqueID: 4263787777
     locked: 0
