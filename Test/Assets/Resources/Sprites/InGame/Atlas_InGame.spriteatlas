@@ -37,7 +37,10 @@ SpriteAtlas:
     - {fileID: 2800000, guid: e36878332df2db74f8c35fd09ba1b989, type: 3}
     - {fileID: 2800000, guid: 0616b5e04bfd23145b7e6b0f8e271ca9, type: 3}
     - {fileID: 2800000, guid: e9414730e71dbd0408da0565897299f5, type: 3}
-    totalSpriteSurfaceArea: 820560
+    - {fileID: 2800000, guid: 5f065c3d9b81fff498333762b3fa771d, type: 3}
+    - {fileID: 2800000, guid: bf42ac8522c0f9a4a855e406b4c448eb, type: 3}
+    - {fileID: 2800000, guid: 8c1c28f4c18389240b0d59112f289ff5, type: 3}
+    totalSpriteSurfaceArea: 857424
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -45,16 +48,22 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0616b5e04bfd23145b7e6b0f8e271ca9, type: 3}
   - {fileID: 21300000, guid: bf6c768155bb019409d631b3a99fedf3, type: 3}
   - {fileID: 21300000, guid: e36878332df2db74f8c35fd09ba1b989, type: 3}
+  - {fileID: 21300000, guid: 8c1c28f4c18389240b0d59112f289ff5, type: 3}
+  - {fileID: 21300000, guid: bf42ac8522c0f9a4a855e406b4c448eb, type: 3}
   - {fileID: 21300000, guid: 65c018f55906b4a438e22e2c5fb42bb8, type: 3}
   - {fileID: 21300000, guid: e95bb05627ecb3746ab73398a4644b4e, type: 3}
+  - {fileID: 21300000, guid: 5f065c3d9b81fff498333762b3fa771d, type: 3}
   - {fileID: 21300000, guid: 261353cd07d3d5e4196aa01809c7a38b, type: 3}
   m_PackedSpriteNamesToIndex:
   - bg_Board
   - Candy_03
   - Candy_01
   - Candy_04
+  - WhiteCircle
+  - LineCircle
   - bg_BoardTop
   - Candy_02
+  - Line
   - Candy_00
   m_Tag: Atlas_InGame
   m_IsVariant: 0
