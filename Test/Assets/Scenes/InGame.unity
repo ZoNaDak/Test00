@@ -648,7 +648,7 @@ GameObject:
   - component: {fileID: 1117845561}
   - component: {fileID: 1117845560}
   - component: {fileID: 1117845559}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: CandyCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -844,6 +844,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1980535326}
   - component: {fileID: 1980535327}
+  - component: {fileID: 1980535328}
   m_Layer: 8
   m_Name: CandyManager
   m_TagString: Untagged
@@ -880,6 +881,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1420266d5f8a6140a7846f7a60aedfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1980535328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980535325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256a5ef1fba2ed24d98e7555db07df25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2027391891

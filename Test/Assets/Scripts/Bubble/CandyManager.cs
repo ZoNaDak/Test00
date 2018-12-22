@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Test.Util;
+using Test.MyInput;
 
 namespace Test.Candy {
     public enum ECandyType {
@@ -20,6 +21,28 @@ namespace Test.Candy {
 
         private List<CandyController> candyList = new List<CandyController>();
         private LineController lineForCandy;
+        private InputForCandy inputForCandy;
+
+        private List<CandyController> selectedCandy = new List<CandyController>();
+
+        public CandyController LastSelectedCandy { 
+            get {
+                if(this.selectedCandy.Count == 0 ) {
+                    return null;
+                } else {
+                    return this.selectedCandy[this.selectedCandy.Count - 1];
+                }
+            }
+        }
+        public CandyController SecondLastSelectedCandy { 
+            get {
+                if(this.selectedCandy.Count < 2) {
+                    return null;
+                } else {
+                    return this.selectedCandy[this.selectedCandy.Count - 2]; 
+                }
+            } 
+        }
 
         void Awake() {
             //Create Line
@@ -28,9 +51,14 @@ namespace Test.Candy {
                 linePrefab = PrefabFactory.Instance.CreatePrefab("InGame", "Line", true);
             }
             this.lineForCandy = Instantiate(linePrefab, this.transform.parent).GetComponent<LineController>();
+            this.inputForCandy = this.GetComponent<InputForCandy>();
         }
 
         void Start() {
+            
+        }
+
+        void Update() {
             
         }
 
@@ -67,6 +95,30 @@ namespace Test.Candy {
 
         public void UpdateTheClickOfCandy(Vector2 _candyPos) {
 
+        }
+
+        public void AddSelectedCandy(CandyController _candy) {
+            this.lineForCandy.AddPoint(_candy.gameObject);
+            _candy.SelectMe();
+            this.selectedCandy.Add(_candy.GetComponent<CandyController>());
+        }
+
+        public void RemoveLastSelectedCandy() {
+            this.lineForCandy.RemoveLastPoint();
+            this.selectedCandy[this.selectedCandy.Count - 1].DeselectMe();
+            this.selectedCandy.RemoveAt(this.selectedCandy.Count - 1);
+        }
+
+        public void PangCandies() {
+            this.lineForCandy.Clear();
+            for(int i = 0; i < this.selectedCandy.Count; ++i) {
+                this.selectedCandy[i].DeselectMe();
+            }
+            this.selectedCandy.Clear();
+
+            if(this.selectedCandy.Count < 3) {
+                return;
+            }
         }
     }
 }

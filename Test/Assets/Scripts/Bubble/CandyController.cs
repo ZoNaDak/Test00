@@ -9,7 +9,8 @@ namespace Test.Candy {
         private Rigidbody2D myRigidBody;
         private SpriteRenderer mySpriteRenderer;
 
-        public ECandyType type { get; private set; }
+        public ECandyType Type { get; private set; }
+        public bool Selected { get; private set; }
 
         void Awake() {
             this.myRigidBody = this.GetComponent<Rigidbody2D>();
@@ -25,8 +26,16 @@ namespace Test.Candy {
         }
 
         public void SetType(ECandyType _type) {
-            this.type = _type;
-            this.mySpriteRenderer.sprite = Util.SpriteFactory.Instance.GetSprite("InGame", this.type.ToString());
+            this.Type = _type;
+            this.mySpriteRenderer.sprite = Util.SpriteFactory.Instance.GetSprite("InGame", this.Type.ToString());
+        }
+
+        public void SelectMe() {
+            this.Selected = true;
+        }
+
+        public void DeselectMe() {
+            this.Selected = false;
         }
     }
 }
