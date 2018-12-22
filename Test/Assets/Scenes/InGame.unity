@@ -471,9 +471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6bc15337c492c4bbe6653c786be958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelCanvas: {fileID: 277827752}
-  candyCanvas: {fileID: 1117845557}
-  uiCanvas: {fileID: 1721870677}
 --- !u!4 &894613905
 Transform:
   m_ObjectHideFlags: 0
@@ -848,7 +845,7 @@ GameObject:
   - component: {fileID: 1980535326}
   - component: {fileID: 1980535327}
   m_Layer: 8
-  m_Name: Candies
+  m_Name: CandyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

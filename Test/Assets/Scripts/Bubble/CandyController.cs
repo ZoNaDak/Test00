@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Test.Bubble {
+namespace Test.Candy {
     public class CandyController : MonoBehaviour {
         private const float START_SPEED = 600.0f;
     

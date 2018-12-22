@@ -10,11 +10,11 @@ namespace Test.Util {
 
         private LineRenderer myRenderer;
 
-        private Stack<Vector3> points = new Stack<Vector3>();
+        private List<GameObject> selectedObjects = new List<GameObject>();
         private List<GameObject> outCircles = new List<GameObject>();
         private List<GameObject> inCircles = new List<GameObject>();
 
-        public int PointNum { get { return this.points.Count; } }
+        public int PointNum { get { return this.selectedObjects.Count; } }
 
         void Awake() {
             this.myRenderer = this.gameObject.GetComponent<LineRenderer>();
@@ -39,38 +39,45 @@ namespace Test.Util {
 
             this.gameObject.SetActive(false);
         }
+
+        void LateUpdate() {
+            //Update Pos
+            for(int i = 0; i < this.selectedObjects.Count; ++i) {
+                Vector3 candyPos = this.selectedObjects[i].transform.localPosition;
+                this.myRenderer.SetPosition(i, new Vector3(candyPos.x, candyPos.y, MY_DEPTH));
+
+                this.outCircles[i].transform.localPosition = new Vector3(candyPos.x, candyPos.y, OUTCIRCLE_DEPTH);
+                this.inCircles[i].transform.localPosition = new Vector3(candyPos.x, candyPos.y, INCIRCLE_DEPTH);
+            }
+        }
         
-        public void AddPoint(Vector2 _addPoint) {
-            if(this.points.Count == 0) {
+        public void AddPoint(GameObject _obj) {
+            if(this.selectedObjects.Count == 0) {
                 this.gameObject.SetActive(true);
             }
-            this.points.Push(new Vector3(_addPoint.x, _addPoint.y, MY_DEPTH));
+            this.selectedObjects.Add(_obj);
 
-            this.outCircles[this.points.Count-1].SetActive(true);
-            this.outCircles[this.points.Count-1].transform.localPosition = new Vector3(_addPoint.x, _addPoint.y, OUTCIRCLE_DEPTH);
-            this.inCircles[this.points.Count-1].SetActive(true);
-            this.inCircles[this.points.Count-1].transform.localPosition = new Vector3(_addPoint.x, _addPoint.y, INCIRCLE_DEPTH);
+            this.outCircles[this.selectedObjects.Count-1].SetActive(true);
+            this.inCircles[this.selectedObjects.Count-1].SetActive(true);
 
-            this.myRenderer.positionCount = this.points.Count;
-            this.myRenderer.SetPositions(this.points.ToArray());
+            this.myRenderer.positionCount = this.selectedObjects.Count;
         }
 
         public void RemoveLastPoint() {
-            this.outCircles[this.points.Count-1].SetActive(false);
-            this.inCircles[this.points.Count-1].SetActive(false);
+            this.outCircles[this.selectedObjects.Count-1].SetActive(false);
+            this.inCircles[this.selectedObjects.Count-1].SetActive(false);
 
-            this.points.Pop();
+            this.selectedObjects.RemoveAt(this.selectedObjects.Count-1);
 
-            this.myRenderer.positionCount = this.points.Count;
-            this.myRenderer.SetPositions(this.points.ToArray());
+            this.myRenderer.positionCount = this.selectedObjects.Count;
         }
 
         public void Clear() {
-            for(int i = 0; i < this.points.Count; ++i) {
+            for(int i = 0; i < this.selectedObjects.Count; ++i) {
                 this.outCircles[i].SetActive(false);
                 this.inCircles[i].SetActive(false);
             }
-            this.points.Clear();
+            this.selectedObjects.Clear();
             this.myRenderer.positionCount = 0;
             this.gameObject.SetActive(false);
         }
