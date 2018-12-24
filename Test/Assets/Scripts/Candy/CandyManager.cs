@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Test.Util;
-using Test.MyInput;
+using Test.Util.ExtensionMethod;
+using Test.Util.MyInput;
 
 namespace Test.Candy {
     public enum ECandyType {
@@ -18,31 +20,14 @@ namespace Test.Candy {
         private const int X_NUM_FOR_CREATE = 7;
         private const float SPACE_FOR_CREATE = 15.0f;
         private const float START_POS_Y_FOR_CREATE = 700.0f;
+        private const float MAX_RANGE_FOR_SELECT = 150.0f;
 
         private List<CandyController> candyList = new List<CandyController>();
-        private LineController lineForCandy;
-        private InputForCandy inputForCandy;
-
         private List<CandyController> selectedCandy = new List<CandyController>();
-
-        public CandyController LastSelectedCandy { 
-            get {
-                if(this.selectedCandy.Count == 0 ) {
-                    return null;
-                } else {
-                    return this.selectedCandy[this.selectedCandy.Count - 1];
-                }
-            }
-        }
-        public CandyController SecondLastSelectedCandy { 
-            get {
-                if(this.selectedCandy.Count < 2) {
-                    return null;
-                } else {
-                    return this.selectedCandy[this.selectedCandy.Count - 2]; 
-                }
-            } 
-        }
+        private LineController lineForCandy;
+        private GameObject clickedCandy;
+        private bool isClicked;
+        private ECandyType selectedCandyType;
 
         void Awake() {
             //Create Line
@@ -51,7 +36,6 @@ namespace Test.Candy {
                 linePrefab = PrefabFactory.Instance.CreatePrefab("InGame", "Line", true);
             }
             this.lineForCandy = Instantiate(linePrefab, this.transform.parent).GetComponent<LineController>();
-            this.inputForCandy = this.GetComponent<InputForCandy>();
         }
 
         void Start() {
@@ -59,7 +43,43 @@ namespace Test.Candy {
         }
 
         void Update() {
-            
+            if(InputManager.TouchStart() && !this.isClicked) {
+                Ray ray = InputManager.GetTouchPointRay();
+                RaycastHit2D rayHit = Physics2D.Raycast(ray.origin, ray.direction, 15.0f, 1 << LayerMask.NameToLayer("Candy"));
+                if(rayHit) {
+                    CandyController candy = rayHit.transform.gameObject.GetComponent<CandyController>();
+                    this.selectedCandyType = candy.Type;
+                    AddSelectedCandy(candy);
+                }
+                this.isClicked = true;
+            } else if(InputManager.Touching() && this.isClicked) {
+                Ray ray = InputManager.GetTouchPointRay();
+                RaycastHit2D rayHit = Physics2D.Raycast(ray.origin, ray.direction, 15.0f, 1 << LayerMask.NameToLayer("Candy"));
+                if(rayHit) {
+                    if(this.selectedCandy.Last().gameObject != rayHit.transform.gameObject) {
+                        if(this.selectedCandy.Count > 1
+                        && this.selectedCandy.SecondLast().gameObject == rayHit.transform.gameObject) {
+                            RemoveLastSelectedCandy();
+                        } else {
+                            CandyController candy = rayHit.transform.gameObject.GetComponent<CandyController>();
+                            if(!candy.Selected && candy.Type == this.selectedCandyType 
+                            && MAX_RANGE_FOR_SELECT > Vector2.Distance(this.selectedCandy.Last().transform.position, candy.transform.position)) {
+                                AddSelectedCandy(candy);
+                            }
+                        }
+                    }
+                }
+            } else if(InputManager.TouchEnd()) {
+                PangCandies();
+                this.isClicked = false;
+            }
+        }
+
+        void OnDrawGizmos() {
+            if(this.isClicked) {
+                Gizmos.color = Color.yellow;
+			    Gizmos.DrawWireSphere(this.selectedCandy.Last().transform.position, MAX_RANGE_FOR_SELECT);
+            }
         }
 
         private void CreateCandies(int _candyNum) {
@@ -86,30 +106,19 @@ namespace Test.Candy {
             }
         }
 
-        public void Initialize(int _candyNum) {
-            CreateCandies(_candyNum);
-            //Initialzie LineForCandy
-            this.lineForCandy.Initialize(_candyNum);
-            this.lineForCandy.Clear();
-        }
-
-        public void UpdateTheClickOfCandy(Vector2 _candyPos) {
-
-        }
-
-        public void AddSelectedCandy(CandyController _candy) {
+        private void AddSelectedCandy(CandyController _candy) {
             this.lineForCandy.AddPoint(_candy.gameObject);
             _candy.SelectMe();
             this.selectedCandy.Add(_candy.GetComponent<CandyController>());
         }
 
-        public void RemoveLastSelectedCandy() {
+        private void RemoveLastSelectedCandy() {
             this.lineForCandy.RemoveLastPoint();
             this.selectedCandy[this.selectedCandy.Count - 1].DeselectMe();
             this.selectedCandy.RemoveAt(this.selectedCandy.Count - 1);
         }
 
-        public void PangCandies() {
+        private void PangCandies() {
             this.lineForCandy.Clear();
             for(int i = 0; i < this.selectedCandy.Count; ++i) {
                 this.selectedCandy[i].DeselectMe();
@@ -119,6 +128,13 @@ namespace Test.Candy {
             if(this.selectedCandy.Count < 3) {
                 return;
             }
+        }
+
+        public void Initialize(int _candyNum) {
+            CreateCandies(_candyNum);
+            //Initialzie LineForCandy
+            this.lineForCandy.Initialize(_candyNum);
+            this.lineForCandy.Clear();
         }
     }
 }
