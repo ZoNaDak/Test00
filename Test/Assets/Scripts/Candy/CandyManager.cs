@@ -88,21 +88,16 @@ namespace Test.Candy {
                 candyPrefab = Test.Util.PrefabFactory.Instance.CreatePrefab("InGame", "Candy", true);
             }
 
-            float startPos_X;
             Vector2 candyScale = candyPrefab.transform.lossyScale;
-            if(X_NUM_FOR_CREATE % 2 == 0) {
-                startPos_X = -X_NUM_FOR_CREATE / 2 * (candyScale.x + SPACE_FOR_CREATE) + (candyScale.x + SPACE_FOR_CREATE) * 0.5f;
-            } else {
-                startPos_X = -X_NUM_FOR_CREATE / 2 * (candyScale.x + SPACE_FOR_CREATE); 
-            }
+            float startPos_X = GetCandyStartPosX(_candyNum, candyScale.x);
             
             for(int i = 0; i < _candyNum; ++i) {
-                CandyController bubble = Instantiate(candyPrefab, this.transform).GetComponent<CandyController>();
-                bubble.transform.localPosition = new Vector2(
+                CandyController candy = Instantiate(candyPrefab, this.transform).GetComponent<CandyController>();
+                candy.transform.localPosition = new Vector2(
                     startPos_X + (i % X_NUM_FOR_CREATE) * (candyScale.x + SPACE_FOR_CREATE)
                     , START_POS_Y_FOR_CREATE + (i / X_NUM_FOR_CREATE) * (candyScale.y + SPACE_FOR_CREATE));
-                bubble.SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
-                this.candyList.Add(bubble);
+                candy.SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
+                this.candyList.Add(candy);
             }
         }
 
@@ -119,15 +114,38 @@ namespace Test.Candy {
         }
 
         private void PangCandies() {
+            if(this.selectedCandy.Count >= 3) {
+                float startPos_X = GetCandyStartPosX(this.selectedCandy.Count, this.selectedCandy.First().transform.lossyScale.x);
+                for(int i = 0; i < this.selectedCandy.Count; ++i) {
+                    this.selectedCandy[i].transform.localPosition = new Vector2(
+                    startPos_X + (i % X_NUM_FOR_CREATE) * (selectedCandy[i].transform.lossyScale.x + SPACE_FOR_CREATE)
+                    , START_POS_Y_FOR_CREATE + (i / X_NUM_FOR_CREATE) * (selectedCandy[i].transform.lossyScale.y + SPACE_FOR_CREATE));
+                    this.selectedCandy[i].SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
+                }
+            }
+
             this.lineForCandy.Clear();
             for(int i = 0; i < this.selectedCandy.Count; ++i) {
                 this.selectedCandy[i].DeselectMe();
             }
             this.selectedCandy.Clear();
+        }
 
-            if(this.selectedCandy.Count < 3) {
-                return;
+        private float GetCandyStartPosX(int _candyNum, float candyScale_X) {
+            if(_candyNum < X_NUM_FOR_CREATE) {
+                if(_candyNum % 2 == 0) {
+                    return -_candyNum / 2 * (candyScale_X + SPACE_FOR_CREATE) + (candyScale_X + SPACE_FOR_CREATE) * 0.5f;
+                } else {
+                    return -_candyNum / 2 * (candyScale_X + SPACE_FOR_CREATE);
+                }
+            } else {
+                if(X_NUM_FOR_CREATE % 2 == 0) {
+                    return -X_NUM_FOR_CREATE / 2 * (candyScale_X + SPACE_FOR_CREATE) + (candyScale_X + SPACE_FOR_CREATE) * 0.5f;
+                } else {
+                    return -X_NUM_FOR_CREATE / 2 * (candyScale_X + SPACE_FOR_CREATE); 
+                }
             }
+
         }
 
         public void Initialize(int _candyNum) {
