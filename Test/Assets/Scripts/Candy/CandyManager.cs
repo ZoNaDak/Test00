@@ -38,10 +38,6 @@ namespace Test.Candy {
             this.lineForCandy = Instantiate(linePrefab, this.transform.parent).GetComponent<LineController>();
         }
 
-        void Start() {
-            
-        }
-
         void Update() {
             if(InputManager.TouchStart() && !this.isClicked) {
                 Ray ray = InputManager.GetTouchPointRay();
@@ -122,6 +118,8 @@ namespace Test.Candy {
                     , START_POS_Y_FOR_CREATE + (i / X_NUM_FOR_CREATE) * (selectedCandy[i].transform.lossyScale.y + SPACE_FOR_CREATE));
                     this.selectedCandy[i].SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
                 }
+                int score = 100 * this.selectedCandy.Count * this.selectedCandy.Count;
+                UI.ScoreController.Instance.AddScore(score);
             }
 
             this.lineForCandy.Clear();

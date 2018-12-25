@@ -47,9 +47,6 @@ TagManager:
   - name: Candy
     uniqueID: 3684196109
     locked: 0
-  - name: top_Board
-    uniqueID: 2717204317
-    locked: 0
   - name: UI
     uniqueID: 4263787777
     locked: 0
