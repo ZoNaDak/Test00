@@ -7,6 +7,7 @@ namespace Test.MyScene {
     public class InGameSceneController : SceneController {
         public const int CANDY_NUM = 42;    
         public const float GRAVITY_SCALE = 50.0f;
+        public const float START_REMAIN_TIME = 60.0f;
 
         private CandyManager candyManager;
 
@@ -20,6 +21,8 @@ namespace Test.MyScene {
 
         void Start() {
             this.candyManager.Initialize(CANDY_NUM);
+            UI.TimerController.Instance.Initialize(START_REMAIN_TIME);
+            UI.TimerController.Instance.StartCountDown();
         }
 
         void Update() {

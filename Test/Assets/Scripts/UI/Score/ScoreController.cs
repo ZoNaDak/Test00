@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 namespace Test.UI {
     public class ScoreController : Pattern.MonoSingleton<ScoreController> {
-        [SerializeField] private Text scoreText;
+        private Text scoreText;
 
         public int Score { get; private set; }
+
+        void Awake() {
+            this.scoreText = this.transform.Find("ScoreText").GetComponent<Text>();
+        }
         
         void Start() {
             this.scoreText.text = this.Score.ToString();
