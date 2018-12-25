@@ -10,6 +10,7 @@ namespace Test.UI {
         
         public float RemainTime { get; private set; }
         public float MaxRemainTime { get; private set; }
+        public bool TimeOver { get; private set; }
 
         void Awake() {
             this.innerImage = this.transform.Find("InnerImage").GetComponent<Image>();
@@ -24,6 +25,7 @@ namespace Test.UI {
         }
 
         public void StartCountDown() {
+            this.TimeOver = false;
             this.StartCoroutine(CountDown());
         }
 
@@ -35,6 +37,7 @@ namespace Test.UI {
                 this.innerImage.fillAmount = this.RemainTime / this.MaxRemainTime;
                 yield return new WaitForFixedUpdate();
             }
+            this.TimeOver = true;
         }
     }
 }
