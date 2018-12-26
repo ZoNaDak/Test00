@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Test.UI {
-    public class TimerController : Pattern.MonoSingleton<TimerController> {
+    public class TimerController : MonoBehaviour {
         private Image innerImage;
         private Text remainTimeText;
         

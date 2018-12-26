@@ -11,6 +11,9 @@ namespace Test.MyScene {
 
     public abstract class SceneController : MonoBehaviour {
         public ESceneType SceneType { get; protected set; } = ESceneType.End;
-        public bool IsChangedNextStep { get; protected set;} = false;
+        public bool IsChangedNextStep { get; protected set;}
+        public bool IsLoading { get; protected set; } = true;
+
+        public virtual void StartScene() {}
     }
 }

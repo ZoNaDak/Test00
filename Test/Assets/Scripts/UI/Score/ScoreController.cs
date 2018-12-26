@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Test.UI {
-    public class ScoreController : Pattern.MonoSingleton<ScoreController> {
+    public class ScoreController : MonoBehaviour {
         private Text scoreText;
 
         public int Score { get; private set; }

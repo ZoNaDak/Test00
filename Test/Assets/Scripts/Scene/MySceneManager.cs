@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +29,25 @@ namespace Test.MyScene {
             }
         }
 
+        public bool CheckForChangeToNextStep(EStep _currentStep) {
+            switch(_currentStep) {
+                case EStep.Title:
+                    if(this.currentSceneDictionary[ESceneType.Title].IsChangedNextStep) {
+                        return true;
+                    }
+                break;
+                case EStep.InGame:
+                    if(this.currentSceneDictionary[ESceneType.InGame].IsChangedNextStep) {
+                        return true;
+                    }
+                break;
+                default:
+                    throw new System.ArgumentOutOfRangeException("CurrentStep is not correct");
+            }
+            return false;
+        }
+
+        //Coroutine
         public IEnumerator LoadAsyncScenesForStep(EStep _step) {
             this.IsCompleteToLoadScenes = false;
             //Is Unloaded Scenes Check
@@ -99,22 +119,26 @@ namespace Test.MyScene {
             this.IsCompleteToUnloadScenes = true;
         }
 
-        public bool CheckForChangeToNextStep(EStep _currentStep) {
-            switch(_currentStep) {
-                case EStep.Title:
-                    if(this.currentSceneDictionary[ESceneType.Title].IsChangedNextStep) {
-                        return true;
-                    }
-                break;
-                case EStep.InGame:
-                    if(this.currentSceneDictionary[ESceneType.InGame].IsChangedNextStep) {
-                        return true;
-                    }
-                break;
-                default:
-                    throw new System.ArgumentOutOfRangeException("CurrentStep is not correct");
+        public IEnumerator StartScenesWhenLoadedAllScenes() {
+            while(!this.IsCompleteToUnloadScenes || !this.IsCompleteToLoadScenes) {
+                yield return null;
             }
-            return false;
+            bool isLoading = true;
+            while(isLoading) {
+                foreach(var pair in this.currentSceneDictionary) {
+                    if(pair.Value.IsLoading) {
+                        break;
+                    } else {
+                        if(pair.Value == this.currentSceneDictionary.Last().Value) {
+                            isLoading = false;
+                        }
+                    }
+                }
+                yield return null;
+            }
+            foreach(var pair in this.currentSceneDictionary) {
+                pair.Value.StartScene();
+            }
         }
     }
 }

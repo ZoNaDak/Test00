@@ -26,8 +26,9 @@ namespace Test.Candy {
         private List<CandyController> selectedCandy = new List<CandyController>();
         private LineController lineForCandy;
         private GameObject clickedCandy;
-        private bool isClicked;
         private ECandyType selectedCandyType;
+        private bool isClicked;
+        private bool isClickable;
 
         void Awake() {
             //Create Line
@@ -36,9 +37,44 @@ namespace Test.Candy {
                 linePrefab = PrefabFactory.Instance.CreatePrefab("InGame", "Line", true);
             }
             this.lineForCandy = Instantiate(linePrefab, this.transform.parent).GetComponent<LineController>();
+            this.lineForCandy.Clear();
         }
 
         void Update() {
+            if(isClickable) {
+                CheckToClickCandy();
+            }
+            
+        }
+
+        void OnDrawGizmos() {
+            if(this.isClicked) {
+                Gizmos.color = Color.yellow;
+			    Gizmos.DrawWireSphere(this.selectedCandy.Last().transform.position, MAX_RANGE_FOR_SELECT);
+            }
+        }
+
+        private void CreateCandies(int _candyNum) {
+            GameObject candyPrefab = Test.Util.PrefabFactory.Instance.FindPrefab("Candy");
+            if(candyPrefab == null) {
+                candyPrefab = Test.Util.PrefabFactory.Instance.CreatePrefab("InGame", "Candy", true);
+            }
+
+            Vector2 candyScale = candyPrefab.transform.lossyScale;
+            float startPos_X = GetCandyStartPosX(_candyNum, candyScale.x);
+            
+            for(int i = 0; i < _candyNum; ++i) {
+                CandyController candy = Instantiate(candyPrefab, this.transform).GetComponent<CandyController>();
+                candy.transform.localPosition = new Vector2(
+                    startPos_X + (i % X_NUM_FOR_CREATE) * (candyScale.x + SPACE_FOR_CREATE)
+                    , START_POS_Y_FOR_CREATE + (i / X_NUM_FOR_CREATE) * (candyScale.y + SPACE_FOR_CREATE));
+                candy.SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
+                candy.gameObject.SetActive(false);
+                this.candyList.Add(candy);
+            }
+        }
+
+        private void CheckToClickCandy() {
             if(InputManager.TouchStart() && !this.isClicked) {
                 Ray ray = InputManager.GetTouchPointRay();
                 RaycastHit2D rayHit = Physics2D.Raycast(ray.origin, ray.direction, 15.0f, 1 << LayerMask.NameToLayer("Candy"));
@@ -71,32 +107,6 @@ namespace Test.Candy {
             }
         }
 
-        void OnDrawGizmos() {
-            if(this.isClicked) {
-                Gizmos.color = Color.yellow;
-			    Gizmos.DrawWireSphere(this.selectedCandy.Last().transform.position, MAX_RANGE_FOR_SELECT);
-            }
-        }
-
-        private void CreateCandies(int _candyNum) {
-            GameObject candyPrefab = Test.Util.PrefabFactory.Instance.FindPrefab("Candy");
-            if(candyPrefab == null) {
-                candyPrefab = Test.Util.PrefabFactory.Instance.CreatePrefab("InGame", "Candy", true);
-            }
-
-            Vector2 candyScale = candyPrefab.transform.lossyScale;
-            float startPos_X = GetCandyStartPosX(_candyNum, candyScale.x);
-            
-            for(int i = 0; i < _candyNum; ++i) {
-                CandyController candy = Instantiate(candyPrefab, this.transform).GetComponent<CandyController>();
-                candy.transform.localPosition = new Vector2(
-                    startPos_X + (i % X_NUM_FOR_CREATE) * (candyScale.x + SPACE_FOR_CREATE)
-                    , START_POS_Y_FOR_CREATE + (i / X_NUM_FOR_CREATE) * (candyScale.y + SPACE_FOR_CREATE));
-                candy.SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
-                this.candyList.Add(candy);
-            }
-        }
-
         private void AddSelectedCandy(CandyController _candy) {
             this.lineForCandy.AddPoint(_candy.gameObject);
             _candy.SelectMe();
@@ -119,7 +129,7 @@ namespace Test.Candy {
                     this.selectedCandy[i].SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
                 }
                 int score = 100 * this.selectedCandy.Count * this.selectedCandy.Count;
-                UI.ScoreController.Instance.AddScore(score);
+                UI.UICanvasController.Instance.Score.AddScore(score);
             }
 
             this.lineForCandy.Clear();
@@ -150,7 +160,17 @@ namespace Test.Candy {
             CreateCandies(_candyNum);
             //Initialzie LineForCandy
             this.lineForCandy.Initialize(_candyNum);
-            this.lineForCandy.Clear();
+        }
+
+        public void StartGame() {
+            for(int i = 0; i < this.candyList.Count; ++i) {
+                this.candyList[i].gameObject.SetActive(true);
+            }
+            this.isClickable = true;
+        }
+
+        public void TimeUpGame() {
+            this.isClickable = false;
         }
     }
 }

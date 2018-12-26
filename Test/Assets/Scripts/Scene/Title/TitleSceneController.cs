@@ -8,6 +8,10 @@ namespace Test.MyScene {
             this.SceneType = ESceneType.Title;
         }
 
+        void Start() {
+            this.IsLoading = false;
+        }
+
         public void ClickOnStartButton() {
     		IsChangedNextStep = true;
     	}

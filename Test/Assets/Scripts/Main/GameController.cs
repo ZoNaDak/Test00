@@ -30,6 +30,7 @@ namespace Test {
             this.sceneManager = MySceneManager.Instance;
             this.CurrentStep = EStep.Title;
             StartCoroutine(this.sceneManager.LoadAsyncScenesForStep(EStep.Title));
+            StartCoroutine(this.sceneManager.StartScenesWhenLoadedAllScenes());
         }
 
         void Update() {
@@ -57,13 +58,15 @@ namespace Test {
             switch(this.CurrentStep) {
                 case EStep.Title:
                     this.CurrentStep = EStep.InGame;
-                    StartCoroutine(this.sceneManager.LoadAsyncScenesForStep(this.CurrentStep));
                 break;
                 case EStep.InGame:
+                    this.CurrentStep = EStep.Title;
                 break;
                 default:
                     throw new System.ArgumentOutOfRangeException("CurrentStep is not correct");
             }
+            StartCoroutine(this.sceneManager.LoadAsyncScenesForStep(this.CurrentStep));
+            StartCoroutine(this.sceneManager.StartScenesWhenLoadedAllScenes());
         }
     }
 }
