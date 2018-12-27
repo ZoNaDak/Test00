@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Test.MyScene;
+using Test.Fade;
 
 namespace Test {
     public enum EStep {
@@ -14,6 +15,7 @@ namespace Test {
 
     public class GameController : Pattern.MonoSingleton<GameController> {
         private MySceneManager sceneManager;
+        private FadeController fade;
 
         public EStep CurrentStep { get; private set; }
 
@@ -24,10 +26,13 @@ namespace Test {
 
 			//SetResoultion
 			Screen.SetResolution(360, 640, false);
+
+            this.fade = this.transform.Find("Fade").GetComponent<FadeController>();
         }
 
         void Start() {
             this.sceneManager = MySceneManager.Instance;
+            this.sceneManager.Initialzie(this.fade);
             this.CurrentStep = EStep.Title;
             StartCoroutine(this.sceneManager.LoadAsyncScenesForStep(EStep.Title));
             StartCoroutine(this.sceneManager.StartScenesWhenLoadedAllScenes());
