@@ -22,10 +22,10 @@ namespace Test.UI {
             this.MaxRemainTime = _startTime;
             this.remainTimeText.text = this.RemainTime.ToString();
             this.innerImage.fillAmount = 1.0f;
+            this.TimeOver = false;
         }
 
         public void StartCountDown() {
-            this.TimeOver = false;
             this.StartCoroutine(CountDown());
         }
 

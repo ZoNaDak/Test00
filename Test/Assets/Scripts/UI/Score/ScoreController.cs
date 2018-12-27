@@ -21,5 +21,10 @@ namespace Test.UI {
             this.Score += _addScore;
             this.scoreText.text = this.Score.ToString();
         }
+
+        public void ClearScore() {
+            this.Score = 0;
+            this.scoreText.text = this.Score.ToString();
+        }
     }
 }

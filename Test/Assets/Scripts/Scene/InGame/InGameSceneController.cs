@@ -7,7 +7,7 @@ namespace Test.MyScene {
     public class InGameSceneController : SceneController {
         public const int CANDY_NUM = 42;    
         public const float GRAVITY_SCALE = 50.0f;
-        public const float START_REMAIN_TIME = 60.0f;
+        public const float START_REMAIN_TIME = 10.0f;
         public const float READY_TIME = 2.0f;
 
         private CandyManager candyManager;
@@ -32,6 +32,16 @@ namespace Test.MyScene {
             }
         }
 
+        public void ClickOnTitleButton() {
+            this.IsChangedNextStep = true;
+        }
+
+        public void ClickOnRetryButton() {
+            UI.UICanvasController.Instance.OffResult();
+            this.candyManager.RetryGame();
+            this.StartCoroutine(StartGame());
+        }
+
         public override void StartScene() {
             this.StartCoroutine(StartGame());
         }
@@ -39,6 +49,7 @@ namespace Test.MyScene {
         //Coroutine
         private IEnumerator StartGame() {
             UI.UICanvasController.Instance.ReadyGame(START_REMAIN_TIME);
+            this.isTimeUp = false;
             yield return new WaitForSecondsRealtime(READY_TIME);
             UI.UICanvasController.Instance.StartGame();
             this.candyManager.StartGame();
@@ -48,7 +59,7 @@ namespace Test.MyScene {
             this.candyManager.TimeUpGame();
             UI.UICanvasController.Instance.TimeUpGame();
             yield return new WaitForSecondsRealtime(2.0f);
-            this.IsChangedNextStep = true;
+            UI.UICanvasController.Instance.OnResult();
         }
     }
 }

@@ -171,6 +171,26 @@ namespace Test.Candy {
 
         public void TimeUpGame() {
             this.isClickable = false;
+            this.isClicked = false;
+        }
+
+        public void RetryGame() {
+            Vector2 candyScale = this.candyList[0].transform.lossyScale;
+            float startPos_X = GetCandyStartPosX(this.candyList.Count, candyScale.x);
+            
+            for(int i = 0; i < this.candyList.Count; ++i) {
+                this.candyList[i].transform.localPosition = new Vector2(
+                    startPos_X + (i % X_NUM_FOR_CREATE) * (candyScale.x + SPACE_FOR_CREATE)
+                    , START_POS_Y_FOR_CREATE + (i / X_NUM_FOR_CREATE) * (candyScale.y + SPACE_FOR_CREATE));
+                this.candyList[i].SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
+                this.candyList[i].gameObject.SetActive(false);
+            }
+            
+            this.lineForCandy.Clear();
+            for(int i = 0; i < this.selectedCandy.Count; ++i) {
+                this.selectedCandy[i].DeselectMe();
+            }
+            this.selectedCandy.Clear();
         }
     }
 }
