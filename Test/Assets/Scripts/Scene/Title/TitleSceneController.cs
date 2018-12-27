@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Test.Sound;
 
 namespace Test.MyScene {
     public class TitleSceneController : SceneController {
@@ -10,9 +11,11 @@ namespace Test.MyScene {
 
         void Start() {
             this.IsLoading = false;
+            SoundManager.Instance.StartBgm(EBgmType.TitleBgm);
         }
 
         public void ClickOnStartButton() {
+            SoundManager.Instance.StopBgm(EBgmType.TitleBgm);
     		IsChangedNextStep = true;
     	}
     }
