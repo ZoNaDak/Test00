@@ -49,10 +49,11 @@ namespace Test.MyScene {
 
         //Coroutine
         private IEnumerator StartGame() {
-            SoundManager.Instance.StartBgm(EBgmType.MainGameBgm);
+            SoundManager.Instance.PlayEffectSound(EEffectSoundType.Ready);
             UI.UICanvasController.Instance.ReadyGame(START_REMAIN_TIME);
             this.isTimeUp = false;
             yield return new WaitForSecondsRealtime(READY_TIME);
+            SoundManager.Instance.StartBgm(EBgmType.MainGameBgm);
             UI.UICanvasController.Instance.StartGame();
             this.candyManager.StartGame();
         }
@@ -61,8 +62,10 @@ namespace Test.MyScene {
             SoundManager.Instance.StopBgm(EBgmType.MainGameBgm);
             this.candyManager.TimeUpGame();
             UI.UICanvasController.Instance.TimeUpGame();
+            SoundManager.Instance.PlayEffectSound(EEffectSoundType.TimeUp);
             yield return new WaitForSecondsRealtime(2.0f);
             UI.UICanvasController.Instance.OnResult();
+            SoundManager.Instance.PlayEffectSound(EEffectSoundType.OnResult);
         }
     }
 }

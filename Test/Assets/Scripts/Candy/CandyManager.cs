@@ -82,6 +82,7 @@ namespace Test.Candy {
                     CandyController candy = rayHit.transform.gameObject.GetComponent<CandyController>();
                     this.selectedCandyType = candy.Type;
                     AddSelectedCandy(candy);
+                    Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.LinkCandy);
                 }
                 this.isClicked = true;
             } else if(InputManager.Touching() && this.isClicked) {
@@ -92,18 +93,20 @@ namespace Test.Candy {
                         if(this.selectedCandy.Count > 1
                         && this.selectedCandy.SecondLast().gameObject == rayHit.transform.gameObject) {
                             RemoveLastSelectedCandy();
+                            Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.DelinkCandy);
                         } else {
                             CandyController candy = rayHit.transform.gameObject.GetComponent<CandyController>();
                             if(!candy.Selected && candy.Type == this.selectedCandyType 
                             && MAX_RANGE_FOR_SELECT > Vector2.Distance(this.selectedCandy.Last().transform.position, candy.transform.position)) {
                                 AddSelectedCandy(candy);
+                                Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.LinkCandy);
                             }
                         }
                     }
                 }
             } else if(InputManager.TouchEnd()) {
-                PangCandies();
                 this.isClicked = false;
+                PangCandies();
             }
         }
 
@@ -130,6 +133,7 @@ namespace Test.Candy {
                 }
                 int score = 100 * this.selectedCandy.Count * this.selectedCandy.Count;
                 UI.UICanvasController.Instance.Score.AddScore(score);
+                Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.Pang);
             }
 
             this.lineForCandy.Clear();
