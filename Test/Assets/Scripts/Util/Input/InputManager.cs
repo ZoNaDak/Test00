@@ -7,6 +7,8 @@ namespace Test.Util.MyInput {
         public static bool TouchStart() {
             #if UNITY_EDITOR
                 return Input.GetMouseButtonDown(0);
+            #elif UNITY_STANDALONE
+                return Input.GetMouseButtonDown(0);
             #else
                 if(Input.touchCount == 0) {
                     return false;
@@ -19,6 +21,8 @@ namespace Test.Util.MyInput {
 
         public static bool Touching() {
             #if UNITY_EDITOR
+                return Input.GetMouseButton(0);
+            #elif UNITY_STANDALONE
                 return Input.GetMouseButton(0);
             #else
                 if(Input.touchCount == 0) {
@@ -33,6 +37,8 @@ namespace Test.Util.MyInput {
         public static bool TouchEnd() {
             #if UNITY_EDITOR
                 return Input.GetMouseButtonUp(0);
+            #elif UNITY_STANDALONE
+                return Input.GetMouseButtonUp(0);
             #else
                 if(Input.touchCount == 0) {
                     return false;
@@ -45,6 +51,8 @@ namespace Test.Util.MyInput {
 
         public static Ray GetTouchPointRay() {
             #if UNITY_EDITOR
+                return Camera.main.ScreenPointToRay(Input.mousePosition);
+            #elif UNITY_STANDALONE
                 return Camera.main.ScreenPointToRay(Input.mousePosition);
             #else
                 if(Input.touchCount == 0) {
