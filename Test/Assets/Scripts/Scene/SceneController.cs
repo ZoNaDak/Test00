@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Test.MyScene {
     public enum ESceneType {
         Title,
+        Lobby,
         InGame,
         End
     }

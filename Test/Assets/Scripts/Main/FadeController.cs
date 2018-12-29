@@ -23,14 +23,7 @@ namespace Test.Fade {
             this.maxCircleRad = this.transform.lossyScale.y;
             this.circleRad = this.maxCircleRad;
         }
-
-        void Start() {
-            
-        }
         
-        void Update() {
-        }
-
         public void StartFadeIn() {
             this.StartCoroutine(FadeIn());
         }

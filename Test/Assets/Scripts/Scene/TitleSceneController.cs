@@ -16,7 +16,7 @@ namespace Test.MyScene {
 
         public void ClickOnStartButton() {
             SoundManager.Instance.StopBgm(EBgmType.TitleBgm);
-    		IsChangedNextStep = true;
+    		this.IsChangedNextStep = true;
     	}
     }
 }

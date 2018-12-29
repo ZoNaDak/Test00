@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atals_Lobby
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 526a5c092bc51594abe6b01b8030aa05, type: 3}
+    - {fileID: 2800000, guid: cc288a06d9293d947acd3bba79a3522f, type: 3}
+    - {fileID: 2800000, guid: 890f778f56d70ba44ae218f37d4c3177, type: 3}
+    - {fileID: 2800000, guid: 59840d80d2083bc4b94944b4e9e8995b, type: 3}
+    - {fileID: 2800000, guid: cc288a06d9293d947acd3bba79a3522f, type: 3}
+    - {fileID: 2800000, guid: 485d9bea7caee1645a6a7a7eb4c3f758, type: 3}
+    - {fileID: 2800000, guid: 20b869df341215a4fa0c567d8fef3324, type: 3}
+    - {fileID: 2800000, guid: 6a35baeaf5ad47c42bfd095109dd3862, type: 3}
+    totalSpriteSurfaceArea: 1024918
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 59840d80d2083bc4b94944b4e9e8995b, type: 3}
+  - {fileID: 21300000, guid: cc288a06d9293d947acd3bba79a3522f, type: 3}
+  - {fileID: 21300000, guid: 526a5c092bc51594abe6b01b8030aa05, type: 3}
+  - {fileID: 21300000, guid: 890f778f56d70ba44ae218f37d4c3177, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - ui_Line_Dot
+  - ui_Table_Back
+  - bg_Lobby
+  - ui_Table_Top
+  m_Tag: Atals_Lobby
+  m_IsVariant: 0

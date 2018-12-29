@@ -42,6 +42,11 @@ namespace Test.MyScene {
                         return true;
                     }
                 break;
+                case EStep.Lobby:
+                    if(this.currentSceneDictionary[ESceneType.Lobby].IsChangedNextStep) {
+                        return true;
+                    }
+                break;
                 case EStep.InGame:
                     if(this.currentSceneDictionary[ESceneType.InGame].IsChangedNextStep) {
                         return true;
@@ -65,6 +70,9 @@ namespace Test.MyScene {
             switch(_step) {
                 case EStep.Title:
                     asyncLoadList.Add(SceneManager.LoadSceneAsync("Title", LoadSceneMode.Additive));
+                break;
+                case EStep.Lobby:
+                    asyncLoadList.Add(SceneManager.LoadSceneAsync("Lobby", LoadSceneMode.Additive));
                 break;
                 case EStep.InGame:
                     asyncLoadList.Add(SceneManager.LoadSceneAsync("InGame", LoadSceneMode.Additive));
@@ -111,6 +119,9 @@ namespace Test.MyScene {
             switch(_currentStep) {
                 case EStep.Title:
                     asyncUnLoadList.Add(SceneManager.UnloadSceneAsync("Title"));
+                break;
+                case EStep.Lobby:
+                    asyncUnLoadList.Add(SceneManager.UnloadSceneAsync("Lobby"));
                 break;
                 case EStep.InGame:
                     asyncUnLoadList.Add(SceneManager.UnloadSceneAsync("InGame"));

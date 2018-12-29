@@ -62,10 +62,13 @@ namespace Test {
             StartCoroutine(this.sceneManager.UnloadAsyncScenesForStep(this.CurrentStep));
             switch(this.CurrentStep) {
                 case EStep.Title:
+                    this.CurrentStep = EStep.Lobby;
+                break;
+                case EStep.Lobby:
                     this.CurrentStep = EStep.InGame;
                 break;
                 case EStep.InGame:
-                    this.CurrentStep = EStep.Title;
+                    this.CurrentStep = EStep.Lobby;
                 break;
                 default:
                     throw new System.ArgumentOutOfRangeException("CurrentStep is not correct");
