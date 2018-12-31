@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Atals_Lobby
+  m_Name: Atlas_Lobby
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -38,18 +38,24 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 485d9bea7caee1645a6a7a7eb4c3f758, type: 3}
     - {fileID: 2800000, guid: 20b869df341215a4fa0c567d8fef3324, type: 3}
     - {fileID: 2800000, guid: 6a35baeaf5ad47c42bfd095109dd3862, type: 3}
-    totalSpriteSurfaceArea: 1024918
+    totalSpriteSurfaceArea: 1035880
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 59840d80d2083bc4b94944b4e9e8995b, type: 3}
   - {fileID: 21300000, guid: cc288a06d9293d947acd3bba79a3522f, type: 3}
   - {fileID: 21300000, guid: 526a5c092bc51594abe6b01b8030aa05, type: 3}
+  - {fileID: 21300000, guid: 6a35baeaf5ad47c42bfd095109dd3862, type: 3}
+  - {fileID: 21300000, guid: 485d9bea7caee1645a6a7a7eb4c3f758, type: 3}
   - {fileID: 21300000, guid: 890f778f56d70ba44ae218f37d4c3177, type: 3}
+  - {fileID: 21300000, guid: 20b869df341215a4fa0c567d8fef3324, type: 3}
   m_PackedSpriteNamesToIndex:
   - ui_Line_Dot
-  - ui_Table_Back
+  - ui_Table_Mask
   - bg_Lobby
+  - ic_Medal_Bronze
+  - ic_Medal_Gold
   - ui_Table_Top
-  m_Tag: Atals_Lobby
+  - ic_Medal_Silver
+  m_Tag: Atlas_Lobby
   m_IsVariant: 0

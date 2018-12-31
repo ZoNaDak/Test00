@@ -7,7 +7,7 @@ using Test.MyScene;
 
 namespace Test.Util {
     public class SpriteFactory : Pattern.Singleton<SpriteFactory> {
-        public Dictionary<string, SpriteAtlas> atlasDictionary = new Dictionary<string, SpriteAtlas>();
+        private Dictionary<string, SpriteAtlas> atlasDictionary = new Dictionary<string, SpriteAtlas>();
         
         public void RemoveAllAtlas() {
             atlasDictionary.Clear();

@@ -48,7 +48,7 @@ namespace Test.Candy {
         }
 
         void OnDrawGizmos() {
-            if(this.isClicked) {
+            if(this.isClicked && this.selectedCandy.Count != 0) {
                 Gizmos.color = Color.yellow;
 			    Gizmos.DrawWireSphere(this.selectedCandy.Last().transform.position, MAX_RANGE_FOR_SELECT);
             }

@@ -6,10 +6,15 @@ namespace Test.MyScene {
     public class LobbySceneController : SceneController {
         void Awake() {
             this.SceneType = ESceneType.Lobby;
+            Util.SpriteFactory.Instance.AddAtlas("Lobby");
         }
 
         void Start() {
             this.IsLoading = false;
+        }
+
+        void OnDestroy() {
+            Util.SpriteFactory.Instance.RemoveAtlas("Lobby");
         }
 
         public void ClickOnGameStartButton() {

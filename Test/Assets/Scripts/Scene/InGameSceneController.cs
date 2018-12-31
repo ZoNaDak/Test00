@@ -33,6 +33,10 @@ namespace Test.MyScene {
             }
         }
 
+        void OnDestroy() {
+            Util.SpriteFactory.Instance.RemoveAtlas("InGame");
+        }
+
         public void ClickOnTitleButton() {
             this.IsChangedNextStep = true;
         }
