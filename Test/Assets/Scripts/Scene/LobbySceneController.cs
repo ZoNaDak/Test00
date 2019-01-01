@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Test.Sound;
 
 namespace Test.MyScene {
     public class LobbySceneController : SceneController {
@@ -11,6 +12,7 @@ namespace Test.MyScene {
 
         void Start() {
             this.IsLoading = false;
+            SoundManager.Instance.StartBgm(EBgmType.LobbyBgm);
         }
 
         void OnDestroy() {
@@ -18,6 +20,7 @@ namespace Test.MyScene {
         }
 
         public void ClickOnGameStartButton() {
+            SoundManager.Instance.StopBgm(EBgmType.LobbyBgm);
             this.IsChangedNextStep = true;
         }
     }

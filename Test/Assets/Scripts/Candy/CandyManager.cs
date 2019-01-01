@@ -86,6 +86,9 @@ namespace Test.Candy {
                 }
                 this.isClicked = true;
             } else if(InputManager.Touching() && this.isClicked) {
+                if(this.selectedCandy.Count == 0) {
+                    return;
+                }
                 Ray ray = InputManager.GetTouchPointRay();
                 RaycastHit2D rayHit = Physics2D.Raycast(ray.origin, ray.direction, 15.0f, 1 << LayerMask.NameToLayer("Candy"));
                 if(rayHit) {

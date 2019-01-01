@@ -7,6 +7,7 @@ using UnityEngine;
 namespace Test.Sound {
     public enum EBgmType {
         TitleBgm,
+        LobbyBgm,
         MainGameBgm,
         End
     }

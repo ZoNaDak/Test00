@@ -10,5 +10,13 @@ namespace Test.Util.Coroutine {
             _callback();
             _self = null;
         }
+
+        public static IEnumerator WaitUnitlTrueThenCallback(Func<bool> _boolean, Action _callback, UnityEngine.Coroutine _self = null) {
+            while(!_boolean()) {
+                yield return null;
+            }
+            _callback();
+            _self = null;
+        }
     }
 }

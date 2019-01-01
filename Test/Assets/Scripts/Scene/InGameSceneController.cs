@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Test.Candy;
 using Test.Sound;
+using Test.Util.Coroutine;
 
 namespace Test.MyScene {
     public class InGameSceneController : SceneController {
         public const int CANDY_NUM = 42;    
         public const float GRAVITY_SCALE = 50.0f;
-        public const float START_REMAIN_TIME = 60.0f;
+        public const float START_REMAIN_TIME = 5.0f;
         public const float READY_TIME = 2.0f;
 
         private CandyManager candyManager;
@@ -23,6 +24,7 @@ namespace Test.MyScene {
 
         void Start() {
             this.candyManager.Initialize(CANDY_NUM);
+            UI.UICanvasController.Instance.ReadyGame(START_REMAIN_TIME);
             this.IsLoading = false;
         }
 
@@ -38,7 +40,9 @@ namespace Test.MyScene {
         }
 
         public void ClickOnTitleButton() {
-            this.IsChangedNextStep = true;
+            this.StartCoroutine(UseableCoroutine.WaitUnitlTrueThenCallback(
+                () => { return UI.UICanvasController.Instance.Score.IsSaved; }
+                , () => this.IsChangedNextStep = true));
         }
 
         public void ClickOnRetryButton() {
@@ -54,7 +58,6 @@ namespace Test.MyScene {
         //Coroutine
         private IEnumerator StartGame() {
             SoundManager.Instance.PlayEffectSound(EEffectSoundType.Ready);
-            UI.UICanvasController.Instance.ReadyGame(START_REMAIN_TIME);
             this.isTimeUp = false;
             yield return new WaitForSecondsRealtime(READY_TIME);
             SoundManager.Instance.StartBgm(EBgmType.MainGameBgm);

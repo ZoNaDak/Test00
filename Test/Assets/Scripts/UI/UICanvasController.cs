@@ -49,6 +49,7 @@ namespace Test.UI {
             this.blackPanel.gameObject.SetActive(true);
             this.ResultUI.gameObject.SetActive(true);
             this.ResultUI.SetScorePoint(this.Score.Score);
+            this.Score.SaveScore();
             this.titleButton.gameObject.SetActive(true);
             this.retryButton.gameObject.SetActive(true);
         }
