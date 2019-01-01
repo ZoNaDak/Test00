@@ -5,6 +5,7 @@ using UnityEngine;
 using Test.Util;
 using Test.Util.ExtensionMethod;
 using Test.Util.MyInput;
+using Test.UI.Combo;
 
 namespace Test.Candy {
     public enum ECandyType {
@@ -27,6 +28,8 @@ namespace Test.Candy {
         private LineController lineForCandy;
         private GameObject clickedCandy;
         private ECandyType selectedCandyType;
+        private ComboFontController comboFont;
+        
         private bool isClicked;
         private bool isClickable;
 
@@ -38,6 +41,12 @@ namespace Test.Candy {
             }
             this.lineForCandy = Instantiate(linePrefab, this.transform.parent).GetComponent<LineController>();
             this.lineForCandy.Clear();
+            //Create Combo
+            GameObject comboFontPrefab = PrefabFactory.Instance.FindPrefab("ComboFont");
+            if(comboFontPrefab == null) {
+                comboFontPrefab = PrefabFactory.Instance.CreatePrefab("InGame", "ComboFont", true);
+            }
+            this.comboFont = Instantiate(comboFontPrefab, this.transform.parent).GetComponent<ComboFontController>();
         }
 
         void Update() {
@@ -82,6 +91,7 @@ namespace Test.Candy {
                     CandyController candy = rayHit.transform.gameObject.GetComponent<CandyController>();
                     this.selectedCandyType = candy.Type;
                     AddSelectedCandy(candy);
+                    this.comboFont.OnLink(1, candy.transform.position);
                     Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.LinkCandy);
                 }
                 this.isClicked = true;
@@ -96,12 +106,14 @@ namespace Test.Candy {
                         if(this.selectedCandy.Count > 1
                         && this.selectedCandy.SecondLast().gameObject == rayHit.transform.gameObject) {
                             RemoveLastSelectedCandy();
+                            this.comboFont.OnLink(this.selectedCandy.Count, this.selectedCandy.Last().transform.position);
                             Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.DelinkCandy);
                         } else {
                             CandyController candy = rayHit.transform.gameObject.GetComponent<CandyController>();
                             if(!candy.Selected && candy.Type == this.selectedCandyType 
                             && MAX_RANGE_FOR_SELECT > Vector2.Distance(this.selectedCandy.Last().transform.position, candy.transform.position)) {
                                 AddSelectedCandy(candy);
+                                this.comboFont.OnLink(this.selectedCandy.Count, candy.transform.position);
                                 Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.LinkCandy);
                             }
                         }
@@ -127,6 +139,9 @@ namespace Test.Candy {
 
         private void PangCandies() {
             if(this.selectedCandy.Count >= 3) {
+                this.comboFont.OnCombo(this.selectedCandy.Count, this.selectedCandy.Last().transform.position);
+                int score = 100 * this.selectedCandy.Count * this.selectedCandy.Count;
+                UI.UICanvasController.Instance.Score.AddScore(score);
                 float startPos_X = GetCandyStartPosX(this.selectedCandy.Count, this.selectedCandy.First().transform.lossyScale.x);
                 for(int i = 0; i < this.selectedCandy.Count; ++i) {
                     this.selectedCandy[i].transform.localPosition = new Vector2(
@@ -134,8 +149,6 @@ namespace Test.Candy {
                     , START_POS_Y_FOR_CREATE + (i / X_NUM_FOR_CREATE) * (selectedCandy[i].transform.lossyScale.y + SPACE_FOR_CREATE));
                     this.selectedCandy[i].SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
                 }
-                int score = 100 * this.selectedCandy.Count * this.selectedCandy.Count;
-                UI.UICanvasController.Instance.Score.AddScore(score);
                 Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.Pang);
             }
 
@@ -144,6 +157,7 @@ namespace Test.Candy {
                 this.selectedCandy[i].DeselectMe();
             }
             this.selectedCandy.Clear();
+            this.comboFont.OffLink();
         }
 
         private float GetCandyStartPosX(int _candyNum, float candyScale_X) {
