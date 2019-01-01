@@ -35,17 +35,28 @@ namespace Test.Util.Xml {
                 document = xmlDocumentList[_xmlName].document;
                 xmlDocumentList[_xmlName].AddRef();
             } else {
-                TextAsset textAsset = Resources.Load(Path.Combine("XmlFiles", _xmlName)) as TextAsset;
-                if(textAsset == null) {
-                    throw new System.NullReferenceException(string.Format("XmlFile is None : {0}", _xmlName));
-                }
+                string filePath;
+                #if UNITY_EDITOR
+                    filePath = Application.dataPath + "/Resources/XmlFiles/";
+                #elif UNITY_ANDROID
+                    filePath = Application.persistentDataPath + "/Resources/XmlFiles/";
+                #else
+                    filePath = Application.dataPath + "/Resources/XmlFiles/";
+                #endif
+                filePath += string.Format("{0}.xml", _xmlName);
+
                 document = new XmlDocument();
-                document.LoadXml(textAsset.text);
+                if(File.Exists(filePath)) {
+                    document.Load(filePath);
+                } else {
+                    TextAsset tmpXml = Resources.Load(Path.Combine("XmlFiles", _xmlName)) as TextAsset;
+                    document.LoadXml(tmpXml.text);
+                    Resources.UnloadAsset(tmpXml);
+                }
+
                 XmlInfo xmlInfo = new XmlInfo(document);
                 xmlDocumentList.Add(_xmlName, xmlInfo);
                 xmlInfo.AddRef();
-
-                Resources.UnloadAsset(textAsset);
             }
 
             return document.SelectNodes(string.Format("{0}/{1}", _xmlName, _nodeName));
@@ -59,7 +70,6 @@ namespace Test.Util.Xml {
 
             xmlDocumentList[_xmlName].SubRef();
             if(xmlDocumentList[_xmlName].refNum == 0) {
-                
                 xmlDocumentList[_xmlName].document.RemoveAll();
                 xmlDocumentList.Remove(_xmlName);
             }
@@ -67,12 +77,25 @@ namespace Test.Util.Xml {
         }
 
         public static bool SaveXml(string _xmlName) {
+            string filePath;
+            #if UNITY_EDITOR
+                filePath = Application.dataPath + "/Resources/XmlFiles/";
+            #elif UNITY_ANDROID
+                filePath = Application.persistentDataPath + "/Resources/XmlFiles/";
+            #else
+                filePath = Application.dataPath + "/Resources/XmlFiles/";
+            #endif
+
+            if(!Directory.Exists(filePath)) {
+                Directory.CreateDirectory(filePath);
+            }
+
             if(!xmlDocumentList.ContainsKey(_xmlName)) {
                 Debug.LogError(string.Format("Can't Unload XmlDocument : XmlDocument is None. : {0}", _xmlName));
                 return false;
             }
             
-            xmlDocumentList[_xmlName].document.Save(Path.Combine("./Assets/Resources/XmlFiles", string.Format("{0}.xml", _xmlName)));
+            xmlDocumentList[_xmlName].document.Save(Path.Combine(filePath, string.Format("{0}.xml", _xmlName)));
             return true;
         }
 

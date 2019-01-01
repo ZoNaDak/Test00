@@ -9,7 +9,7 @@ namespace Test.MyScene {
     public class InGameSceneController : SceneController {
         public const int CANDY_NUM = 42;    
         public const float GRAVITY_SCALE = 50.0f;
-        public const float START_REMAIN_TIME = 5.0f;
+        public const float START_REMAIN_TIME = 60.0f;
         public const float READY_TIME = 2.0f;
 
         private CandyManager candyManager;

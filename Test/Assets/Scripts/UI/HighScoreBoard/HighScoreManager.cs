@@ -21,9 +21,12 @@ namespace Test.UI.ScoreTable {
 
         }
 
-        void OnDestroy() {
-            XmlLoader.SaveXml("HighScoreInfo");
-            XmlLoader.UnloadXmlNodeList("HighScoreInfo", "ScoreInfo");
+        void OnApplicationQuit() {
+            if(this.navigator != null) {
+                this.navigator = null;
+                XmlLoader.SaveXml("HighScoreInfo");
+                XmlLoader.UnloadXmlNodeList("HighScoreInfo", "ScoreInfo");
+            }
         }
 
         public void AddHighScore(int _score) {
@@ -67,6 +70,8 @@ namespace Test.UI.ScoreTable {
                     nodeIterator.Current.DeleteSelf();
                 }
             }
+
+            XmlLoader.SaveXml("HighScoreInfo");
         }
 
         public XPathNodeIterator GetScoreNodeIterator() {
