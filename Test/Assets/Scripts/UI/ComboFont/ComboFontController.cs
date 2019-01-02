@@ -8,7 +8,7 @@ namespace Test.UI.Combo {
     public class ComboFontController : MonoBehaviour {
         const float SPACE_X = -20.0f;
         const float SPACE_Y = 40.0f;
-        const float MAX_POS_X = 200.0f;
+        const float MAX_POS_X = 190.0f;
         const float ON_COMBO_TIME = 1.5f;
         const float START_OFF_ALPHA_TIME = 0.75f;
         const float COMBO_MOVE_SPEED = 1.0f;

@@ -35,20 +35,35 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 30eb8ce0e1e4ab64d9aaebaa60077ce6, type: 3}
     - {fileID: 2800000, guid: 1691a57c6ed7b7148b161d2a6bdd2304, type: 3}
     - {fileID: 2800000, guid: adb6a18641ce7944f90c506ded2d6295, type: 3}
-    totalSpriteSurfaceArea: 1516690
+    - {fileID: 2800000, guid: 261353cd07d3d5e4196aa01809c7a38b, type: 3}
+    - {fileID: 2800000, guid: bf6c768155bb019409d631b3a99fedf3, type: 3}
+    - {fileID: 2800000, guid: e95bb05627ecb3746ab73398a4644b4e, type: 3}
+    - {fileID: 2800000, guid: 0616b5e04bfd23145b7e6b0f8e271ca9, type: 3}
+    - {fileID: 2800000, guid: e36878332df2db74f8c35fd09ba1b989, type: 3}
+    totalSpriteSurfaceArea: 1551970
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: 0616b5e04bfd23145b7e6b0f8e271ca9, type: 3}
   - {fileID: 21300000, guid: 30eb8ce0e1e4ab64d9aaebaa60077ce6, type: 3}
+  - {fileID: 21300000, guid: bf6c768155bb019409d631b3a99fedf3, type: 3}
+  - {fileID: 21300000, guid: e36878332df2db74f8c35fd09ba1b989, type: 3}
+  - {fileID: 21300000, guid: e95bb05627ecb3746ab73398a4644b4e, type: 3}
   - {fileID: 21300000, guid: adb6a18641ce7944f90c506ded2d6295, type: 3}
   - {fileID: 21300000, guid: 8e84f567df18d954489fa919f5753b8a, type: 3}
   - {fileID: 21300000, guid: 8da04398f8bd4554382168bb3ae8f866, type: 3}
   - {fileID: 21300000, guid: 1691a57c6ed7b7148b161d2a6bdd2304, type: 3}
+  - {fileID: 21300000, guid: 261353cd07d3d5e4196aa01809c7a38b, type: 3}
   m_PackedSpriteNamesToIndex:
+  - Candy_03
   - bt_yellow
+  - Candy_01
+  - Candy_04
+  - Candy_02
   - bt_white
   - bg_MenuPopup
   - bg_MenuPopup_back
   - bt_red
+  - Candy_00
   m_Tag: Atlas_Default
   m_IsVariant: 0

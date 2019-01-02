@@ -27,7 +27,7 @@ namespace Test.Candy {
 
         public void SetType(ECandyType _type) {
             this.Type = _type;
-            this.mySpriteRenderer.sprite = Util.SpriteFactory.Instance.GetSprite("InGame", this.Type.ToString());
+            this.mySpriteRenderer.sprite = Util.SpriteFactory.Instance.GetSprite("Default", this.Type.ToString());
         }
 
         public void SelectMe() {

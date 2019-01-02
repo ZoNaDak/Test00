@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Test.MyScene;
 using Test.Fade;
+using Test.Candy;
 
 namespace Test {
     public enum EStep {
@@ -18,6 +19,7 @@ namespace Test {
         private FadeController fade;
 
         public EStep CurrentStep { get; private set; }
+        public ECandyType EquipedCandy { get; set; } = ECandyType.Candy_02;
 
         void Awake() {
             #if !UNITY_EDITOR
@@ -28,6 +30,7 @@ namespace Test {
 			Screen.SetResolution(360, 640, false);
 
             this.fade = this.transform.Find("Fade").GetComponent<FadeController>();
+            Util.SpriteFactory.Instance.AddAtlas("Default");
         }
 
         void Start() {
@@ -56,6 +59,10 @@ namespace Test {
             } catch(System.NullReferenceException) {
                 Debug.LogError("currentScene is Null!!");
             }      
+        }
+
+        void OnApplicationQuit() {
+            Util.SpriteFactory.Instance.RemoveAllAtlas();
         }
 
         private void GoToNextStep() {

@@ -4,6 +4,7 @@ using UnityEngine;
 using Test.Candy;
 using Test.Sound;
 using Test.Util.Coroutine;
+using Test.UI.EquipedSkill;
 
 namespace Test.MyScene {
     public class InGameSceneController : SceneController {
@@ -25,6 +26,7 @@ namespace Test.MyScene {
         void Start() {
             this.candyManager.Initialize(CANDY_NUM);
             UI.UICanvasController.Instance.ReadyGame(START_REMAIN_TIME);
+            (FindObjectOfType(typeof(EquipedSkillController)) as EquipedSkillController).SetEquipedCandy(GameController.Instance.EquipedCandy);
             this.IsLoading = false;
         }
 

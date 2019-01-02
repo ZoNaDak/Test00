@@ -6,6 +6,7 @@ using Test.Util;
 using Test.Util.ExtensionMethod;
 using Test.Util.MyInput;
 using Test.UI.Combo;
+using Test.UI.EquipedSkill;
 
 namespace Test.Candy {
     public enum ECandyType {
@@ -29,6 +30,7 @@ namespace Test.Candy {
         private GameObject clickedCandy;
         private ECandyType selectedCandyType;
         private ComboFontController comboFont;
+        private EquipedSkillController equipedSkill;
         
         private bool isClicked;
         private bool isClickable;
@@ -47,6 +49,10 @@ namespace Test.Candy {
                 comboFontPrefab = PrefabFactory.Instance.CreatePrefab("InGame", "ComboFont", true);
             }
             this.comboFont = Instantiate(comboFontPrefab, this.transform.parent).GetComponent<ComboFontController>();
+        }
+
+        void Start() {
+            this.equipedSkill = FindObjectOfType(typeof(EquipedSkillController)) as EquipedSkillController;
         }
 
         void Update() {
@@ -149,6 +155,7 @@ namespace Test.Candy {
                     , START_POS_Y_FOR_CREATE + (i / X_NUM_FOR_CREATE) * (selectedCandy[i].transform.lossyScale.y + SPACE_FOR_CREATE));
                     this.selectedCandy[i].SetType((ECandyType)Random.Range(0, (int)ECandyType.End - 1));
                 }
+                this.equipedSkill.AddGuage(this.selectedCandy.Count);
                 Sound.SoundManager.Instance.PlayEffectSound(Sound.EEffectSoundType.Pang);
             }
 
@@ -212,6 +219,18 @@ namespace Test.Candy {
                 this.selectedCandy[i].DeselectMe();
             }
             this.selectedCandy.Clear();
+        }
+
+        public void UseEquipedCandySkill(ECandyType _type) {
+            this.selectedCandy.Clear();
+            for(int i = 0; i < this.candyList.Count; ++i) {
+                if(this.candyList[i].Type == _type) {
+                    this.selectedCandy.Add(this.candyList[i]);
+                }
+            }
+
+            this.isClicked = false;
+            PangCandies();
         }
     }
 }
