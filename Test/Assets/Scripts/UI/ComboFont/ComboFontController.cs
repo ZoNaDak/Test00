@@ -27,7 +27,7 @@ namespace Test.UI.Combo {
         public void OnLink(int _linkNum, Vector2 _pos) {
             this.linkText.gameObject.SetActive(true);
             this.linkText.text = _linkNum.ToString();
-            this.transform.position = _pos + new Vector2(SPACE_X, SPACE_Y);
+            this.linkText.transform.position = _pos + new Vector2(SPACE_X, SPACE_Y);
         }
 
         public void OffLink() {
@@ -35,6 +35,7 @@ namespace Test.UI.Combo {
         }
 
         public void OnCombo(int _combo, Vector2 _pos) {
+            this.StopAllCoroutines();
             this.isOnCombo = true;
             this.comboText.color = new Color(this.comboText.color.r, this.comboText.color.g, this.comboText.color.b, 1.0f);
             this.comboText.gameObject.SetActive(true);
@@ -44,7 +45,7 @@ namespace Test.UI.Combo {
             } else if(_pos.x > MAX_POS_X) {
                 _pos.x = MAX_POS_X;
             }
-            this.transform.position = _pos;
+            this.comboText.transform.position = _pos;
             StartCoroutine(MoveCombo());
             StartCoroutine(UseableCoroutine.WaitThenCallback(START_OFF_ALPHA_TIME, () => this.isOffComboAlpha = true));
             StartCoroutine(UseableCoroutine.WaitThenCallback(ON_COMBO_TIME
@@ -58,7 +59,7 @@ namespace Test.UI.Combo {
 
         public IEnumerator MoveCombo() {
             while(this.isOnCombo) {
-                this.transform.Translate(0.0f, COMBO_MOVE_SPEED, 0.0f);
+                this.comboText.transform.Translate(0.0f, COMBO_MOVE_SPEED, 0.0f);
                 if(this.isOffComboAlpha) {
                     this.comboText.color = new Color(
                         this.comboText.color.r

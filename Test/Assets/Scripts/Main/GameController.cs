@@ -19,7 +19,7 @@ namespace Test {
         private FadeController fade;
 
         public EStep CurrentStep { get; private set; }
-        public ECandyType EquipedCandy { get; set; } = ECandyType.Candy_02;
+        public ECandyType EquipedCandy { get; set; }
 
         void Awake() {
             #if !UNITY_EDITOR
